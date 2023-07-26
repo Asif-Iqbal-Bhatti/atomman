@@ -10,15 +10,17 @@ from .Strain import Strain
 from .differential_displacement import differential_displacement
 from .DifferentialDisplacement import DifferentialDisplacement
 from .disregistry import disregistry
-from .slip_vector import slip_vector 
+from .slip_vector import slip_vector
 
 from .VolterraDislocation import VolterraDislocation
 from .Stroh import Stroh
 from .IsotropicVolterraDislocation import IsotropicVolterraDislocation
 from .solve_volterra_dislocation import solve_volterra_dislocation
 from .dislocation_array import dislocation_array
+from .dislocation_dipole_displacement import dislocation_dipole_displacement
 from .Dislocation import Dislocation
 
+from .Boundary import Boundary
 from .free_surface_basis import free_surface_basis
 from .FreeSurface import FreeSurface
 from .GammaSurface import GammaSurface
@@ -29,8 +31,8 @@ from .SDVPN import SDVPN
 
 __all__ = ['differential_displacement', 'disregistry', 'dislocation_array',
            'slip_vector', 'nye_tensor', 'nye_tensor_p', 'Stroh', 'FreeSurface',
-           'StackingFault', 'Dislocation', 'Strain',
+           'StackingFault', 'Dislocation', 'Strain', 'dislocation_dipole_displacement',
            'GammaSurface', 'free_surface_basis', 'pn_arctan_disregistry',
-           'pn_arctan_disldensity', 'SDVPN']
+           'pn_arctan_disldensity', 'SDVPN', 'Boundary']
 __all__.extend(point_all)
 __all__.sort()
