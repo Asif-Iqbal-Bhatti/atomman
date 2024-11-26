@@ -14,6 +14,7 @@ def run(lammps_command: str,
         mpi_command: Optional[str] = None,
         restart_script_name: Optional[str] = None,
         restart_script: Optional[str] = None,
+        partition: Optional[str] = None,
         logfile: str = 'log.lammps',
         screen: bool = True,
         suffix: Optional[str] = None) -> Log:
@@ -41,6 +42,10 @@ def run(lammps_command: str,
         Alternate LAMMPS script command lines to use for restart runs.
         If given, the restart script will be used if the specified logfile
         already exists.  Requires logfile to not be None.
+    partition : str or None, optional
+        The LAMMPS partition setting to use for the calculation.  This is
+        required for calculations like NEB that run multiple simulations at
+        the same time.
     logfile : str or None, optional
         Specifies the path to the logfile to write to.  Default value is
         'log.lammps'.  If set to None, then no logfile will be created.
@@ -102,7 +107,7 @@ def run(lammps_command: str,
         command += mpi_command + ' '
     
     # Add lammps_command
-    command += Path(lammps_command).as_posix() + ' '
+    command += f'"{Path(lammps_command).as_posix()}" '
 
     # Add logfile
     if logfile is None:
@@ -117,6 +122,10 @@ def run(lammps_command: str,
         command += f'-in {script_name} '
     elif script is None:
         raise ValueError('script or script_name must be given')
+
+    # Add partition
+    if partition is not None:
+        command += f'-partition {partition} '
 
     # Add screen
     if screen is False:
@@ -136,7 +145,7 @@ def run(lammps_command: str,
     
     # Convert LAMMPS error to a Python error if failed
     except subprocess.CalledProcessError as e:
-        raise LammpsError(e.output)
+        raise LammpsError(e.output.strip())
     
     # Initialize Log object
     log = Log()
